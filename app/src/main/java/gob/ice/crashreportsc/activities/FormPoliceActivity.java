@@ -1,12 +1,15 @@
 package gob.ice.crashreportsc.activities;
 
 import android.app.Dialog;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
+import android.view.Window;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -24,11 +27,13 @@ public class FormPoliceActivity extends AppCompatActivity {
 
     private DatabaseReference df;
     private FirebaseDatabase firebaseDatabase;
+    private Context context;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form_police);
+        context=this;
         ButterKnife.bind(this);
         configInit();
     }
@@ -77,6 +82,12 @@ public class FormPoliceActivity extends AppCompatActivity {
 
     @OnClick(R.id.btnRegister)
     void register() {
+    }
+
+    @OnClick(R.id.btnCancel)
+    void cancel() {
+        startActivity(new Intent(context,LoginActivity.class));
+        finish();
     }
 
     @OnClick(R.id.btnShowInvolved)
