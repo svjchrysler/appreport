@@ -13,9 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,6 +56,9 @@ public class FormPoliceActivity extends AppCompatActivity {
     @BindView(R.id.imgCamera)
     ImageView imgCamera;
 
+    @BindView(R.id.sp_weather)
+    Spinner spWeather;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,7 +71,17 @@ public class FormPoliceActivity extends AppCompatActivity {
     private void configInit() {
         loadArray();
         configFirebase();
+        cargarSpinnerClima();
     }
+
+    private void cargarSpinnerClima() {
+        ArrayAdapter<CharSequence> adapter;
+        adapter = ArrayAdapter.createFromResource(this, R.array.clima,
+                android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spWeather.setAdapter(adapter);
+    }
+
 
     private void loadArray() {
         Utils.listInvolucrados.add(new Involved("Auto", true));
@@ -90,8 +105,7 @@ public class FormPoliceActivity extends AppCompatActivity {
 
     private void showDialogInvolved() {
         //final Dialog dialog = new Dialog(this, android.R.style.Theme_DeviceDefault_DialogWhenLarge_NoActionBar);
-        Dialog dialog = null;
-        dialog  = new Dialog(this, android.R.style.Theme_DeviceDefault_DialogWhenLarge);
+        final Dialog dialog = new Dialog(this, android.R.style.Theme_DeviceDefault_DialogWhenLarge);
 
         dialog.requestWindowFeature(getWindow().FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_involved);
@@ -101,11 +115,10 @@ public class FormPoliceActivity extends AppCompatActivity {
         Button btnAceptar = (Button)dialog.findViewById(R.id.btndialogaceptar);
         Button btnCancelar = (Button)dialog.findViewById(R.id.btndialogcancelar);
 
-        final Dialog finalDialog = dialog;
         btnAceptar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finalDialog.dismiss();
+                dialog.dismiss();
             }
         });
 
@@ -113,11 +126,12 @@ public class FormPoliceActivity extends AppCompatActivity {
         btnCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finalDialog.dismiss();
+                dialog.dismiss();
             }
         });
-        recyclerItemInvolved.setAdapter(null);
-        InvolvedAdapter involvedAdapter = new InvolvedAdapter(this, Utils.listInvolucrados);
+        InvolvedAdapter involvedAdapter = null;
+        involvedAdapter = new InvolvedAdapter(this, Utils.listInvolucrados);
+
         recyclerItemInvolved.setAdapter(involvedAdapter);
         recyclerItemInvolved.setLayoutManager(new LinearLayoutManager(this));
 

@@ -14,4 +14,26 @@
     <string name="policia">Policia</string>
     <string name="btn_pedestrian">Peaton</string>
     <string name="btn_aceptar">aceptar</string>
+
+
+    <string-array name="clima">
+        <item>Lluvioso</item>
+        <item>Soleado</item>
+        <item>Nublado</item>
+        <item>Neblina</item>
+        <item>Granizo</item>
+        <item>Nieve</item>
+    </string-array>
+
+
+    <string-array name="severidad">
+        <item>Lluvioso</item>
+        <item>Soleado</item>
+        <item>Nublado</item>
+        <item>Neblina</item>
+        <item>Granizo</item>
+        <item>Nieve</item>
+    </string-array>
+
+
 </resources>

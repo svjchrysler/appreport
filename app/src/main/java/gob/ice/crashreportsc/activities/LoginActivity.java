@@ -11,9 +11,13 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import gob.ice.crashreportsc.R;
+import gob.ice.crashreportsc.Utils;
+import gob.ice.crashreportsc.models.Involved;
 
 /**
  * Created by lgmguadama on 12/7/2016.
@@ -26,7 +30,7 @@ public class LoginActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        Utils.listInvolucrados = new ArrayList<Involved>();
         ButterKnife.bind(this);
 
     }
