@@ -1,5 +1,7 @@
 package gob.ice.crashreportsc;
 
+import android.net.Uri;
+
 import java.util.ArrayList;
 
 import gob.ice.crashreportsc.models.Involved;
@@ -10,4 +12,5 @@ import gob.ice.crashreportsc.models.Involved;
 
 public class Utils {
     public static ArrayList<Involved> listInvolucrados = new ArrayList<>();
+    public static Uri image;
 }

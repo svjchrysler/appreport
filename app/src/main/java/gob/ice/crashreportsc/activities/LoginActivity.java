@@ -11,6 +11,8 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.Toast;
 
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import gob.ice.crashreportsc.R;
 
 /**
@@ -25,20 +27,19 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        ButterKnife.bind(this);
 
-        ((Button) findViewById(R.id.login_btnpolice)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(LoginActivity.this, FormPoliceActivity.class));
-                finish();
-            }
-        });
-        ((Button) findViewById(R.id.login_btnpedestrian)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(LoginActivity.this, FormPoliceActivity.class));
-                finish();
-            }
-        });
+    }
+
+    @OnClick(R.id.login_btnpolice)
+    void formpolice() {
+        startActivity(new Intent(LoginActivity.this, FormPoliceActivity.class));
+        finish();
+    }
+
+    @OnClick(R.id.login_btnpedestrian)
+    void formpeaton() {
+        startActivity(new Intent(LoginActivity.this, FormPoliceActivity.class));
+        finish();
     }
 }

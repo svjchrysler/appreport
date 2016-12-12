@@ -41,6 +41,23 @@
                 android:text="@string/txt_time" />
         </LinearLayout>
 
+        <LinearLayout
+            android:scrollbars="horizontal"
+            android:id="@+id/linearInvolucrados"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.cunoraz.tagview.TagView
+                android:id="@+id/groupTag"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </com.cunoraz.tagview.TagView>
+
+
+        </LinearLayout>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -70,6 +87,8 @@
             android:layout_margin="5dp"
             android:orientation="vertical">
 
+
+
             <TextView
                 android:id="@+id/form_photo"
                 android:layout_width="match_parent"
@@ -77,8 +96,16 @@
                 android:text="@string/txt_photo"
                 android:textStyle="bold" />
 
+            <ImageView
+                android:id="@+id/imgCamera"
+                android:src="@mipmap/police"
+                android:layout_below="@+id/form_photo"
+                android:layout_width="150dp"
+                android:layout_height="150dp" />
+
             <Button
                 android:layout_width="25dp"
+                android:id="@+id/rxcamera"
                 android:layout_height="25dp"
                 android:layout_alignParentRight="true"
                 android:layout_below="@id/form_photo"
