@@ -44,6 +44,8 @@
 
                 <Switch
                     android:id="@+id/swgenero"
+                    android:textOn="F"
+                    android:textOff="M"
                     android:text="M"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />

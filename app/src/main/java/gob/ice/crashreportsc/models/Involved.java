@@ -4,6 +4,9 @@ public class Involved {
     private String name;
     private Boolean sw;
     private Boolean swGenero;
+    private int Count;
+
+    public Involved() {}
 
     public Involved(String name, Boolean sw, Boolean swGenero) {
         this.name = name;
@@ -33,5 +36,13 @@ public class Involved {
 
     public void setSwGenero(Boolean swGenero) {
         this.swGenero = swGenero;
+    }
+
+    public int getCount() {
+        return Count;
+    }
+
+    public void setCount(int count) {
+        Count = count;
     }
 }
