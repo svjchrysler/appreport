@@ -124,7 +124,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/txt_weather"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:id="@+id/textView" />
 
             <Spinner
                 android:id="@+id/sp_weather"
