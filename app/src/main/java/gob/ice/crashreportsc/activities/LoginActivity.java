@@ -3,13 +3,8 @@ package gob.ice.crashreportsc.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.View;
 import android.view.Window;
-import android.widget.Button;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -43,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @OnClick(R.id.login_btnpedestrian)
     void formpeaton() {
-        startActivity(new Intent(LoginActivity.this, FormPoliceActivity.class));
+        startActivity(new Intent(LoginActivity.this, FormPedestrian_activity.class));
         finish();
     }
 }

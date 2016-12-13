@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    android:theme="@android:style/Theme.Dialog">
+
+
+    <ImageView
+        android:id="@+id/signin_imglogo"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:src="@mipmap/logo" />
+
+    <android.support.design.widget.TextInputEditText
+        android:id="@+id/signin_txtci"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="CI"
+        android:inputType="number" />
+
+    <android.support.design.widget.TextInputEditText
+        android:id="@+id/signin_txtpassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Contraseña"
+        android:inputType="textPassword" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/signin_btncancel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/btn_cancel" />
+
+        <Button
+            android:id="@+id/signin_btnsignin"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/btn_signin" />
+    </LinearLayout>
+
+
+</LinearLayout>
