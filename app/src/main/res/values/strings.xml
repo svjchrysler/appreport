@@ -13,7 +13,8 @@
     <string name="btn_register">Registrar</string>
     <string name="policia">Policia</string>
     <string name="btn_pedestrian">Peaton</string>
-    <string name="btn_aceptar">aceptar</string>
+    <string name="btn_accept">aceptar</string>
+    <string name="btn_signin">Ingresar</string>
 
 
     <string-array name="clima">
