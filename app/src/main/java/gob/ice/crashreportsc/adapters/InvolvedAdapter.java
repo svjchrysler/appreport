@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import java.util.List;
@@ -42,7 +43,16 @@ public class InvolvedAdapter extends RecyclerView.Adapter<InvolvedAdapter.ViewHo
             params.weight = 1;
             holder.linearContentBtn.setVisibility(View.GONE);
             holder.linearContentTxt.setLayoutParams(params);
+        } else {
+            if (this.listInvolved.get(position).getSwGenero()) {
+                holder.swGenero.setVisibility(View.VISIBLE);
+            }
+            else {
+                holder.swGenero.setVisibility(View.GONE);
+            }
         }
+
+
 
         holder.txtName.setText(this.listInvolved.get(position).getName());
     }
@@ -71,6 +81,12 @@ public class InvolvedAdapter extends RecyclerView.Adapter<InvolvedAdapter.ViewHo
 
         @BindView(R.id.linearContentTxt)
         LinearLayout linearContentTxt;
+
+        @BindView(R.id.linearCenter)
+        LinearLayout linearCenter;
+
+        @BindView(R.id.swgenero)
+        Switch swGenero;
 
 
         public ViewHolder(View itemView) {

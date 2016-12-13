@@ -36,10 +36,26 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/linearCenter"
+                android:layout_width="0dp"
+                android:layout_weight="0.2"
+                android:gravity="center"
+                android:layout_height="wrap_content">
+
+                <Switch
+                    android:id="@+id/swgenero"
+                    android:text="M"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
                 android:padding="10dp"
                 android:id="@+id/linearContentBtn"
                 android:layout_width="0dp"
-                android:layout_weight="0.6"
+                android:layout_weight="0.4"
                 android:orientation="horizontal"
                 android:gravity="center"
                 android:layout_height="wrap_content">

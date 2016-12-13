@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -21,14 +22,20 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.cunoraz.tagview.Tag;
 import com.cunoraz.tagview.TagView;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.mlsdev.rximagepicker.RxImageConverters;
 import com.mlsdev.rximagepicker.RxImagePicker;
 import com.mlsdev.rximagepicker.Sources;
 
 
+import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Random;
 
 import butterknife.BindView;
@@ -39,7 +46,9 @@ import gob.ice.crashreportsc.R;
 import gob.ice.crashreportsc.Utils;
 import gob.ice.crashreportsc.adapters.InvolvedAdapter;
 import gob.ice.crashreportsc.models.Involved;
+import rx.Observable;
 import rx.functions.Action1;
+import rx.functions.Func1;
 
 
 public class FormPoliceActivity extends AppCompatActivity {
@@ -59,6 +68,15 @@ public class FormPoliceActivity extends AppCompatActivity {
     @BindView(R.id.sp_weather)
     Spinner spWeather;
 
+    @BindView(R.id.lbldate)
+    TextView lblDate;
+
+    @BindView(R.id.lblhour)
+    TextView lblHour;
+
+    @BindView(R.id.toolbarForm)
+    Toolbar toolbarForm;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +90,14 @@ public class FormPoliceActivity extends AppCompatActivity {
         loadArray();
         configFirebase();
         cargarSpinnerClima();
+        getDateTime();
+        configToolbar();
+    }
+
+    private void configToolbar() {
+        setSupportActionBar(toolbarForm);
+        toolbarForm.removeAllViews();
+        toolbarForm.removeAllViewsInLayout();
     }
 
     private void cargarSpinnerClima() {
@@ -82,16 +108,27 @@ public class FormPoliceActivity extends AppCompatActivity {
         spWeather.setAdapter(adapter);
     }
 
+    private void getDateTime() {
+        DateFormat dfd = new SimpleDateFormat("dd/MM/yyyy");
+        DateFormat dfh = new SimpleDateFormat("HH:mm");
+        dfd.setLenient(false);
+        dfh.setLenient(false);
+        Date today = new Date();
+        String sd = dfd.format(today);
+        String sh = dfh.format(today);
+        lblDate.setText(sd);
+        lblHour.setText(sh);
+    }
 
     private void loadArray() {
-        Utils.listInvolucrados.add(new Involved("Auto", true));
-        Utils.listInvolucrados.add(new Involved("Bicicleta", true));
-        Utils.listInvolucrados.add(new Involved("Motocicleta", true));
-        Utils.listInvolucrados.add(new Involved("Bus", true));
-        Utils.listInvolucrados.add(new Involved("Taxi", true));
-        Utils.listInvolucrados.add(new Involved("Camion", true));
-        Utils.listInvolucrados.add(new Involved("Peaton", true));
-        Utils.listInvolucrados.add(new Involved("Otro (Barda, Poste, Arbol, etc.)", false));
+        Utils.listInvolucrados.add(new Involved("Auto", true, false));
+        Utils.listInvolucrados.add(new Involved("Bicicleta", true, false));
+        Utils.listInvolucrados.add(new Involved("Motocicleta", true, false));
+        Utils.listInvolucrados.add(new Involved("Bus", true, false));
+        Utils.listInvolucrados.add(new Involved("Taxi", true, false));
+        Utils.listInvolucrados.add(new Involved("Camion", true, false));
+        Utils.listInvolucrados.add(new Involved("Peaton", true, true));
+        Utils.listInvolucrados.add(new Involved("Otro (Barda, Poste, Arbol, etc.)", false, false));
     }
 
     private void configFirebase() {
@@ -104,13 +141,12 @@ public class FormPoliceActivity extends AppCompatActivity {
     }
 
     private void showDialogInvolved() {
-        //final Dialog dialog = new Dialog(this, android.R.style.Theme_DeviceDefault_DialogWhenLarge_NoActionBar);
-        final Dialog dialog = new Dialog(this, android.R.style.Theme_DeviceDefault_DialogWhenLarge);
+        //final Dialog dialog = new Dialog(this, android.R.style.Theme_DeviceDefault_DialogWhenLarge);
+        final Dialog dialog = new Dialog(this, android.R.style.Theme_DeviceDefault_Light_DialogWhenLarge);
 
         dialog.requestWindowFeature(getWindow().FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_involved);
-        RecyclerView recyclerItemInvolved = null;
-        recyclerItemInvolved = (RecyclerView) dialog.findViewById(R.id.recyclerItemInvolved);
+        RecyclerView recyclerItemInvolved = (RecyclerView) dialog.findViewById(R.id.recyclerItemInvolved);
 
         Button btnAceptar = (Button)dialog.findViewById(R.id.btndialogaceptar);
         Button btnCancelar = (Button)dialog.findViewById(R.id.btndialogcancelar);
@@ -129,19 +165,22 @@ public class FormPoliceActivity extends AppCompatActivity {
                 dialog.dismiss();
             }
         });
-        InvolvedAdapter involvedAdapter = null;
-        involvedAdapter = new InvolvedAdapter(this, Utils.listInvolucrados);
+
+        InvolvedAdapter involvedAdapter = new InvolvedAdapter(this, Utils.listInvolucrados);
 
         recyclerItemInvolved.setAdapter(involvedAdapter);
         recyclerItemInvolved.setLayoutManager(new LinearLayoutManager(this));
 
         dialog.show();
+
+
     }
+
 
     @OnClick(R.id.btnRegister)
     void register() {
 
-        Tag tag = new Tag("Automovil " + new Random().nextInt() * 2);
+        Tag tag = new Tag("Automovil " + new Random().nextInt(10) * 2);
 
         tagView.addTag(tag);
 
