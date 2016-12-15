@@ -15,4 +15,9 @@ public class Utils {
     public static Uri image;
     public static String latitude;
     public static String longitude;
+
+    public static String photoOne = "";
+    public static String photoTwo = "";
+    public static String photoThree = "";
+    public static String photoFour = "";
 }

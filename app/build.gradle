@@ -51,7 +51,7 @@ dependencies {
 
     compile 'com.eminayar.panterdialog:panter-dialog:0.0.2.1'
 
-    compile 'com.github.ugurtekbas:dialTimePicker:640f7526dd'
+    compile 'com.code-troopers.betterpickers:library:3.0.2'
 }
 
 apply plugin: 'com.google.gms.google-services'

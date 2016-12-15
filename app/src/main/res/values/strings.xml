@@ -17,6 +17,7 @@
     <string name="btn_signin">Ingresar</string>
     <string name="txt_riesgo">FACTORES DE RIESGO</string>
     <string name="txtHour">presione para seleccionar hora</string>
+    <string name="registrate">regritrar</string>
 
 
     <string-array name="clima">

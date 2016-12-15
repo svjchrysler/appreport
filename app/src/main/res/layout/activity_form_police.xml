@@ -263,6 +263,7 @@
                     android:orientation="horizontal">
 
                     <RadioGroup
+                        android:id="@+id/groupSeveridad"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
@@ -312,18 +313,21 @@
                     android:orientation="horizontal">
 
                     <Switch
+                        android:id="@+id/swSoat"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="SOAT" />
 
                     <Switch
+                        android:id="@+id/swPrivado"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Privado" />
 
                     <Switch
+                        android:id="@+id/swFigurado"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"

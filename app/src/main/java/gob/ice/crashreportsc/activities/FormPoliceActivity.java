@@ -3,6 +3,7 @@ package gob.ice.crashreportsc.activities;
 import android.Manifest;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -11,28 +12,32 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.codetroopers.betterpickers.radialtimepicker.RadialTimePickerDialogFragment;
 import com.cunoraz.tagview.Tag;
 import com.cunoraz.tagview.TagView;
 import com.eminayar.panter.DialogType;
 import com.eminayar.panter.PanterDialog;
 import com.eminayar.panter.interfaces.OnSingleCallbackConfirmListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.mlsdev.rximagepicker.RxImagePicker;
 import com.mlsdev.rximagepicker.Sources;
-
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -43,23 +48,20 @@ import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
-import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.OnLongClick;
-import butterknife.OnTouch;
 import gob.ice.crashreportsc.R;
 import gob.ice.crashreportsc.Utils;
 import gob.ice.crashreportsc.adapters.InvolvedAdapter;
 import gob.ice.crashreportsc.adapters.RiskAdapter;
 import gob.ice.crashreportsc.interfaces.OnClickRisk;
+import gob.ice.crashreportsc.models.Accident;
 import gob.ice.crashreportsc.models.Involved;
 import gob.ice.crashreportsc.models.Risk;
-import picker.ugurtekbas.com.Picker.Picker;
 import rx.functions.Action1;
 
 
-public class FormPoliceActivity extends AppCompatActivity implements gob.ice.crashreportsc.interfaces.OnClick, OnClickRisk {
+public class FormPoliceActivity extends AppCompatActivity implements gob.ice.crashreportsc.interfaces.OnClick, OnClickRisk, RadialTimePickerDialogFragment.OnTimeSetListener {
 
     private Context context;
 
@@ -93,6 +95,24 @@ public class FormPoliceActivity extends AppCompatActivity implements gob.ice.cra
     @BindView(R.id.txtClock)
     TextView txtClock;
 
+    @BindView(R.id.rbOne)
+    RadioButton rbOne;
+
+    @BindView(R.id.rbTwo)
+    RadioButton rbTwo;
+
+    @BindView(R.id.rbThree)
+    RadioButton rbThree;
+
+    @BindView(R.id.swSoat)
+    Switch swSoat;
+
+    @BindView(R.id.swPrivado)
+    Switch swPrivado;
+
+    @BindView(R.id.swFigurado)
+    Switch swFigurado;
+
     private ArrayList<Involved> listAddItems;
     private ArrayList<Risk> listItemRisk;
 
@@ -103,6 +123,81 @@ public class FormPoliceActivity extends AppCompatActivity implements gob.ice.cra
         context = this;
         ButterKnife.bind(this);
         configInit();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_save:
+                saveData();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void saveData() {
+        List<Involved> listInvolvedAux = listAddItems;
+        for (Involved involved : Utils.listInvolucrados) {
+            String involvedSource = new String("Otro (Barda, Poste, Arbol, etc.)");
+            String involvedOrigin = new String(involved.getName());
+            if (involvedSource.compareTo(involvedOrigin) == 0) {
+                listInvolvedAux.add(involved);
+            }
+        }
+
+        int soat, privado, figurado;
+
+        soat = swSoat.isSelected() ? 1 : 0;
+        privado = swPrivado.isSelected() ? 1 : 0;
+        figurado = 0;
+
+        if (swFigurado.isSelected()) {
+            soat = privado = 0;
+            figurado = 1;
+        }
+
+        List<Risk> listNewRisk = new ArrayList<>();
+
+        for(Risk risk : listItemRisk) {
+            if (risk.getSwSelected())
+                listNewRisk.add(risk);
+        }
+
+        Accident accident = new Accident(getSeveridad(), listInvolvedAux, listNewRisk,
+                                            spWeather.getText().toString(), soat, privado, figurado,
+                                            Utils.latitude, Utils.longitude, Utils.photoOne, Utils.photoTwo,
+                                            Utils.photoThree, Utils.photoFour, getDateTimeActual(),
+                                            getHourActual(), txtClock.getText().toString());
+
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("accident");
+
+        myRef.push().setValue(accident);
+
+        Toast.makeText(context, "Gracias por registrar", Toast.LENGTH_SHORT).show();
+        finish();
+        startActivity(new Intent(FormPoliceActivity.this, LoginActivity.class));
+
+    }
+
+    private String getSeveridad() {
+        if (rbOne.isSelected())
+            return "Fatal";
+        if (rbTwo.isSelected())
+            return "Serio";
+        if (rbThree.isSelected())
+            return "Serio";
+
+        return "";
     }
 
     private void configInit() {
@@ -217,6 +312,22 @@ public class FormPoliceActivity extends AppCompatActivity implements gob.ice.cra
         lblHour.setText(sh);
     }
 
+    private String getDateTimeActual() {
+        DateFormat dfd = new SimpleDateFormat("dd/MM/yyyy");
+        dfd.setLenient(false);
+        Date today = new Date();
+        String sd = dfd.format(today);
+        return sd;
+    }
+
+    private String getHourActual() {
+        DateFormat dfh = new SimpleDateFormat("HH:mm");
+        dfh.setLenient(false);
+        Date today = new Date();
+        String sh = dfh.format(today);
+        return  sh;
+    }
+
     private void loadArray() {
         Utils.listInvolucrados.add(new Involved("Auto", true, false));
         Utils.listInvolucrados.add(new Involved("Bicicleta", true, false));
@@ -279,7 +390,7 @@ public class FormPoliceActivity extends AppCompatActivity implements gob.ice.cra
             }
         }
 
-        for (Involved involved: Utils.listInvolucrados) {
+        for (Involved involved : Utils.listInvolucrados) {
             if (involved.getSwObject()) {
                 Tag tag = new Tag(involved.getName());
                 tagView.addTag(tag);
@@ -453,8 +564,7 @@ public class FormPoliceActivity extends AppCompatActivity implements gob.ice.cra
         if (component.isChecked()) {
             addElement(name, component.isChecked());
             component.setText(component.getTextOn());
-        }
-        else {
+        } else {
             addElement(name, component.isChecked());
             component.setText(component.getTextOff());
         }
@@ -531,37 +641,18 @@ public class FormPoliceActivity extends AppCompatActivity implements gob.ice.cra
 
     @OnClick(R.id.txtClock)
     void showDialogClock() {
-        showDialogClockSelect();
+        RadialTimePickerDialogFragment rtpd = new RadialTimePickerDialogFragment()
+                .setOnTimeSetListener(FormPoliceActivity.this)
+                .setStartTime(10, 10)
+                .setDoneText("Aceptar")
+                .setCancelText("Cancelar")
+                .setThemeDark();
+        rtpd.show(getSupportFragmentManager(), "ddd");
+
     }
 
-    private void showDialogClockSelect() {
-        final Dialog dialog = new Dialog(this, android.R.style.Theme_DeviceDefault_Light_DialogWhenLarge);
-
-        dialog.requestWindowFeature(getWindow().FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dialog_clock);
-
-        final Picker picker = (Picker)dialog.findViewById(R.id.amPicker);
-        Button btnAceptar = (Button) dialog.findViewById(R.id.btnClockAceptar);
-        Button btnCancelar = (Button) dialog.findViewById(R.id.btnClockCancel);
-
-        btnAceptar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                txtClock.setText(picker.getCurrentHour() + ":" + picker.getCurrentMin());
-                dialog.dismiss();
-            }
-        });
-
-
-        btnCancelar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-
-        dialog.show();
+    @Override
+    public void onTimeSet(RadialTimePickerDialogFragment dialog, int hourOfDay, int minute) {
+        txtClock.setText(hourOfDay + ":" + minute);
     }
-
-
 }
