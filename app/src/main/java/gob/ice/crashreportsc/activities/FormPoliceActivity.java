@@ -2,13 +2,16 @@ package gob.ice.crashreportsc.activities;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -17,6 +20,10 @@ import com.cunoraz.tagview.TagView;
 import com.eminayar.panter.DialogType;
 import com.eminayar.panter.PanterDialog;
 import com.eminayar.panter.interfaces.OnSingleCallbackConfirmListener;
+import com.mlsdev.rximagepicker.RxImagePicker;
+import com.mlsdev.rximagepicker.Sources;
+
+import org.w3c.dom.Text;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -24,8 +31,11 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import butterknife.BindView;
+import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnLongClick;
+import butterknife.OnTouch;
 import gob.ice.crashreportsc.R;
 import gob.ice.crashreportsc.Utils;
 import gob.ice.crashreportsc.adapters.InvolvedAdapter;
@@ -33,6 +43,7 @@ import gob.ice.crashreportsc.adapters.RiskAdapter;
 import gob.ice.crashreportsc.interfaces.OnClickRisk;
 import gob.ice.crashreportsc.models.Involved;
 import gob.ice.crashreportsc.models.Risk;
+import rx.functions.Action1;
 
 
 public class FormPoliceActivity extends AppCompatActivity implements gob.ice.crashreportsc.interfaces.OnClick, OnClickRisk {
@@ -54,6 +65,18 @@ public class FormPoliceActivity extends AppCompatActivity implements gob.ice.cra
     @BindView(R.id.lblhour)
     TextView lblHour;
 
+    @BindView(R.id.imgCameraOne)
+    ImageView imgCameraOne;
+
+    @BindView(R.id.imgCameraTwo)
+    ImageView imgCameraTwo;
+
+    @BindView(R.id.imgCameraThree)
+    ImageView imgCameraThree;
+
+    @BindView(R.id.imgCameraFour)
+    ImageView imgCameraFour;
+
     private ArrayList<Involved> listAddItems;
     private ArrayList<Risk> listItemRisk;
 
@@ -67,10 +90,45 @@ public class FormPoliceActivity extends AppCompatActivity implements gob.ice.cra
     }
 
     private void configInit() {
+        //configComponents();
         setTitle("Formulario de Registro");
         loadArray();
         loadArrayRisk();
         getDateTime();
+    }
+
+    private void configComponents() {
+        imgCameraOne.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                imgCameraOne.setImageResource(R.mipmap.police);
+                return false;
+            }
+        });
+
+        imgCameraTwo.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                imgCameraTwo.setImageResource(R.mipmap.police);
+                return false;
+            }
+        });
+
+        imgCameraThree.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                imgCameraThree.setImageResource(R.mipmap.police);
+                return false;
+            }
+        });
+
+        imgCameraFour.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                imgCameraFour.setImageResource(R.mipmap.police);
+                return false;
+            }
+        });
     }
 
     private void loadArrayRisk() {
@@ -387,4 +445,44 @@ public class FormPoliceActivity extends AppCompatActivity implements gob.ice.cra
         }
     }
 
+    @OnClick(R.id.imgCameraOne)
+    void getImageCameraOne() {
+        RxImagePicker.with(context).requestImage(Sources.GALLERY).subscribe(new Action1<Uri>() {
+            @Override
+            public void call(Uri uri) {
+                imgCameraOne.setImageURI(uri);
+            }
+        });
+    }
+
+    @OnClick(R.id.imgCameraTwo)
+    void getImageCameraTwo() {
+        RxImagePicker.with(context).requestImage(Sources.GALLERY).subscribe(new Action1<Uri>() {
+            @Override
+            public void call(Uri uri) {
+                imgCameraTwo.setImageURI(uri);
+            }
+        });
+    }
+
+    @OnClick(R.id.imgCameraThree)
+    void getImageCameraThree() {
+        RxImagePicker.with(context).requestImage(Sources.GALLERY).subscribe(new Action1<Uri>() {
+            @Override
+            public void call(Uri uri) {
+                imgCameraThree.setImageURI(uri);
+            }
+        });
+    }
+
+
+    @OnClick(R.id.imgCameraFour)
+    void getImageCameraFour() {
+        RxImagePicker.with(context).requestImage(Sources.GALLERY).subscribe(new Action1<Uri>() {
+            @Override
+            public void call(Uri uri) {
+                imgCameraFour.setImageURI(uri);
+            }
+        });
+    }
 }

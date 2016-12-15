@@ -171,11 +171,13 @@
                     android:id="@+id/imgCameraOne"
                     android:layout_width="@dimen/sizeImage"
                     android:layout_height="@dimen/sizeImage"
+                    android:padding="@dimen/space_padding"
                     android:layout_below="@+id/form_photo"
                     android:src="@mipmap/police" />
 
                 <ImageView
                     android:id="@+id/imgCameraTwo"
+                    android:padding="@dimen/space_padding"
                     android:layout_width="@dimen/sizeImage"
                     android:layout_height="@dimen/sizeImage"
                     android:layout_below="@+id/form_photo"
@@ -183,6 +185,7 @@
 
                 <ImageView
                     android:id="@+id/imgCameraThree"
+                    android:padding="@dimen/space_padding"
                     android:layout_width="@dimen/sizeImage"
                     android:layout_height="@dimen/sizeImage"
                     android:layout_below="@+id/form_photo"
@@ -191,6 +194,7 @@
                 <ImageView
                     android:id="@+id/imgCameraFour"
                     android:layout_width="@dimen/sizeImage"
+                    android:padding="@dimen/space_padding"
                     android:layout_height="@dimen/sizeImage"
                     android:layout_below="@+id/form_photo"
                     android:src="@mipmap/police" />
