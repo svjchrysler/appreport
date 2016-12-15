@@ -13,4 +13,6 @@ import gob.ice.crashreportsc.models.Involved;
 public class Utils {
     public static ArrayList<Involved> listInvolucrados = new ArrayList<>();
     public static Uri image;
+    public static String latitude;
+    public static String longitude;
 }
