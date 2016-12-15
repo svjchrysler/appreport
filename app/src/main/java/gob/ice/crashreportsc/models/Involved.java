@@ -5,6 +5,8 @@ public class Involved {
     private Boolean sw;
     private Boolean swGenero;
     private int Count;
+    private String genero;
+    private Boolean swObject = false;
 
     public Involved() {}
 
@@ -44,5 +46,21 @@ public class Involved {
 
     public void setCount(int count) {
         Count = count;
+    }
+
+    public String getGenero() {
+        return genero;
+    }
+
+    public void setGenero(String genero) {
+        this.genero = genero;
+    }
+
+    public Boolean getSwObject() {
+        return swObject;
+    }
+
+    public void setSwObject(Boolean swObject) {
+        this.swObject = swObject;
     }
 }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CollisionReports</string>
+    <string name="app_name">Collision Reports</string>
     <string name="txt_involved">INVOLUCRADOS</string>
     <string name="txt_photo">CAPTURAS</string>
     <string name="txt_date">01/12/2016</string>
@@ -15,6 +15,7 @@
     <string name="btn_pedestrian">Peaton</string>
     <string name="btn_accept">aceptar</string>
     <string name="btn_signin">Ingresar</string>
+    <string name="txt_riesgo">FACTORES DE RIESGO</string>
 
 
     <string-array name="clima">

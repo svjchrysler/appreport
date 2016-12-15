@@ -45,7 +45,11 @@ dependencies {
 
     compile 'ir.sohreco.circularpulsingbutton:circular-pulsing-button:1.0.0'
 
+    compile 'de.hdodenhof:circleimageview:2.1.0'
 
+    compile 'com.jaredrummler:material-spinner:1.1.0'
+
+    compile 'com.eminayar.panterdialog:panter-dialog:0.0.2.1'
 }
 
 apply plugin: 'com.google.gms.google-services'

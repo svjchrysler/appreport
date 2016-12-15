@@ -2,27 +2,21 @@ package gob.ice.crashreportsc.activities;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.cunoraz.tagview.Tag;
 import com.cunoraz.tagview.TagView;
-import com.mlsdev.rximagepicker.RxImagePicker;
-import com.mlsdev.rximagepicker.Sources;
+import com.eminayar.panter.DialogType;
+import com.eminayar.panter.PanterDialog;
+import com.eminayar.panter.interfaces.OnSingleCallbackConfirmListener;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -35,23 +29,24 @@ import butterknife.OnClick;
 import gob.ice.crashreportsc.R;
 import gob.ice.crashreportsc.Utils;
 import gob.ice.crashreportsc.adapters.InvolvedAdapter;
+import gob.ice.crashreportsc.adapters.RiskAdapter;
+import gob.ice.crashreportsc.interfaces.OnClickRisk;
 import gob.ice.crashreportsc.models.Involved;
-import rx.functions.Action1;
+import gob.ice.crashreportsc.models.Risk;
 
 
-public class FormPoliceActivity extends AppCompatActivity implements gob.ice.crashreportsc.interfaces.OnClick {
+public class FormPoliceActivity extends AppCompatActivity implements gob.ice.crashreportsc.interfaces.OnClick, OnClickRisk {
 
     private Context context;
-
 
     @BindView(R.id.groupTag)
     TagView tagView;
 
-    @BindView(R.id.imgCamera)
-    ImageView imgCamera;
+    @BindView(R.id.groupTagFactores)
+    TagView tagViewRisk;
 
-    @BindView(R.id.sp_weather)
-    Spinner spWeather;
+    @BindView(R.id.spWeather)
+    TextView spWeather;
 
     @BindView(R.id.lbldate)
     TextView lblDate;
@@ -59,10 +54,8 @@ public class FormPoliceActivity extends AppCompatActivity implements gob.ice.cra
     @BindView(R.id.lblhour)
     TextView lblHour;
 
-    @BindView(R.id.toolbarForm)
-    Toolbar toolbarForm;
-
     private ArrayList<Involved> listAddItems;
+    private ArrayList<Risk> listItemRisk;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,24 +67,41 @@ public class FormPoliceActivity extends AppCompatActivity implements gob.ice.cra
     }
 
     private void configInit() {
+        setTitle("Formulario de Registro");
         loadArray();
-        cargarSpinnerClima();
+        loadArrayRisk();
         getDateTime();
-        configToolbar();
     }
 
-    private void configToolbar() {
-        setSupportActionBar(toolbarForm);
-        toolbarForm.removeAllViews();
-        toolbarForm.removeAllViewsInLayout();
+    private void loadArrayRisk() {
+        listItemRisk = new ArrayList<>();
+        listItemRisk.add(new Risk("Alcohol", false));
+        listItemRisk.add(new Risk("Velocidad", false));
+        listItemRisk.add(new Risk("Sin Casco", false));
+        listItemRisk.add(new Risk("Menor de Edad", false));
+        listItemRisk.add(new Risk("Cinturon de Seguridad", false));
+        listItemRisk.add(new Risk("Cansancio", false));
+        listItemRisk.add(new Risk("Celular", false));
+        listItemRisk.add(new Risk("Distraccion", false));
     }
 
-    private void cargarSpinnerClima() {
-        ArrayAdapter<CharSequence> adapter;
-        adapter = ArrayAdapter.createFromResource(this, R.array.clima,
-                android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spWeather.setAdapter(adapter);
+    private void showOptionsClima() {
+
+        new PanterDialog(this)
+                .setDialogType(DialogType.SINGLECHOICE)
+                .isCancelable(false)
+                .items(R.array.clima, new OnSingleCallbackConfirmListener() {
+                    @Override
+                    public void onSingleCallbackConfirmed(PanterDialog dialog, int pos, String text) {
+                        spWeather.setText(text);
+                    }
+                })
+                .show();
+    }
+
+    @OnClick(R.id.spWeather)
+    void showDialogClima() {
+        showOptionsClima();
     }
 
     private void getDateTime() {
@@ -116,6 +126,7 @@ public class FormPoliceActivity extends AppCompatActivity implements gob.ice.cra
         Utils.listInvolucrados.add(new Involved("Peaton", true, true));
         Utils.listInvolucrados.add(new Involved("Otro (Barda, Poste, Arbol, etc.)", false, false));
 
+        this.listAddItems = null;
         this.listAddItems = new ArrayList<>();
     }
 
@@ -154,45 +165,63 @@ public class FormPoliceActivity extends AppCompatActivity implements gob.ice.cra
     }
 
     private void addTags() {
+
         tagView.removeAllViewsInLayout();
         tagView.removeAllViews();
         tagView.removeAll();
 
         for (Involved involved : this.listAddItems) {
-            Tag tag = new Tag(involved.getName() + " " + involved.getCount());
-            tagView.addTag(tag);
+            if (involved.getCount() > 0) {
+
+                Tag tag = new Tag(involved.getName() + " " + involved.getCount());
+                tagView.addTag(tag);
+            }
+        }
+
+        for (Involved involved: Utils.listInvolucrados) {
+            if (involved.getSwObject()) {
+                Tag tag = new Tag(involved.getName());
+                tagView.addTag(tag);
+            }
         }
 
         configEventTag();
     }
 
-    @OnClick(R.id.btnRegister)
-    void register() {
-
-
-    }
-
     private void configEventTag() {
-        tagView.setOnTagClickListener(new TagView.OnTagClickListener() {
-            @Override
-            public void onTagClick(Tag tag, int i) {
-                Toast.makeText(context, tag.text, Toast.LENGTH_SHORT).show();
-            }
-        });
 
         tagView.setOnTagLongClickListener(new TagView.OnTagLongClickListener() {
             @Override
             public void onTagLongClick(Tag tag, int i) {
+                String[] parts = tag.text.split(" ");
+                deleteItemListAdd(parts[0].trim());
+                changeStateItem(tag.text);
                 tagView.remove(i);
+                addTags();
             }
         });
     }
 
+    private void changeStateItem(String text) {
+        for (Involved involved : Utils.listInvolucrados) {
+            String nameOrigin = new String(involved.getName());
+            String nameItem = new String(text);
+            if (nameOrigin.compareTo(nameItem) == 0) {
+                involved.setSwObject(false);
+                return;
+            }
+        }
+    }
 
-    @OnClick(R.id.btnCancel)
-    void cancel() {
-        startActivity(new Intent(context, LoginActivity.class));
-        finish();
+    private void deleteItemListAdd(String name) {
+        for (Involved involved : listAddItems) {
+            String nameOrigin = new String(involved.getName());
+            String nameItem = new String(name);
+            if (nameOrigin.compareTo(nameItem) == 0) {
+                listAddItems.remove(involved);
+                return;
+            }
+        }
     }
 
     @OnClick(R.id.btnShowInvolved)
@@ -200,15 +229,80 @@ public class FormPoliceActivity extends AppCompatActivity implements gob.ice.cra
         showDialogInvolved();
     }
 
-    @OnClick(R.id.rxcamera)
-    void uploadImage() {
-        RxImagePicker.with(context).requestImage(Sources.CAMERA).subscribe(new Action1<Uri>() {
+    @OnClick(R.id.btnShowRiesgo)
+    void showRisk() {
+        showDialogRisk();
+    }
+
+    private void showDialogRisk() {
+        final Dialog dialog = new Dialog(this, android.R.style.Theme_DeviceDefault_Light_DialogWhenLarge);
+
+        dialog.requestWindowFeature(getWindow().FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_risk_factor);
+        RecyclerView recyclerRisk = (RecyclerView) dialog.findViewById(R.id.recyclerRisk);
+
+        Button btnAceptar = (Button) dialog.findViewById(R.id.btnAceptarRisk);
+        Button btnCancelar = (Button) dialog.findViewById(R.id.btnCancelarRisk);
+
+        btnAceptar.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void call(Uri uri) {
-                Utils.image = uri;
-                imgCamera.setImageURI(Utils.image);
+            public void onClick(View view) {
+                dialog.dismiss();
+                addTagsRisk();
             }
         });
+
+        btnCancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        RiskAdapter riskAdapter = new RiskAdapter(context, listItemRisk, this);
+
+        recyclerRisk.setAdapter(riskAdapter);
+        recyclerRisk.setLayoutManager(new LinearLayoutManager(this));
+
+        dialog.show();
+    }
+
+    private void addTagsRisk() {
+        tagViewRisk.removeAllViewsInLayout();
+        tagViewRisk.removeAllViews();
+        tagViewRisk.removeAll();
+
+        for (Risk risk : this.listItemRisk) {
+            if (risk.getSwSelected()) {
+                Tag tag = new Tag(risk.getName());
+                tagViewRisk.addTag(tag);
+            }
+        }
+
+        configEventTagRisk();
+    }
+
+    private void configEventTagRisk() {
+        tagViewRisk.setOnTagLongClickListener(new TagView.OnTagLongClickListener() {
+            @Override
+            public void onTagLongClick(Tag tag, int i) {
+                changeStateItemRisk(tag.text);
+                tagViewRisk.remove(i);
+                addTagsRisk();
+            }
+        });
+    }
+
+    private void changeStateItemRisk(String name) {
+        for (Risk risk : listItemRisk) {
+            String riskSource = new String(risk.getName());
+            String riskOrigin = new String(name);
+            if (riskSource.compareTo(riskOrigin) == 0) {
+                risk.setSwSelected(false);
+                return;
+            }
+
+        }
     }
 
     @Override
@@ -223,7 +317,7 @@ public class FormPoliceActivity extends AppCompatActivity implements gob.ice.cra
 
     private void addElementList(String name, int count) {
         int position = validarExistencia(name);
-        if (position > 0) {
+        if (position >= 0) {
             listAddItems.get(position).setCount(count);
         } else {
             Involved involved = new Involved();
@@ -235,7 +329,9 @@ public class FormPoliceActivity extends AppCompatActivity implements gob.ice.cra
 
     private int validarExistencia(String name) {
         for (int i = 0; i < this.listAddItems.size(); i++) {
-            if (this.listAddItems.get(i).getName().trim().equals(name.trim().toString()))
+            String nameRest = new String(listAddItems.get(i).getName());
+            String nameParam = new String(name);
+            if (nameRest.compareTo(nameParam) == 0)
                 return i;
         }
         return -1;
@@ -250,4 +346,45 @@ public class FormPoliceActivity extends AppCompatActivity implements gob.ice.cra
         else
             ((Switch) component).setText(swith.getTextOff());
     }
+
+    @Override
+    public void onClickSwitchObject(Switch component, String name) {
+        if (component.isChecked()) {
+            addElement(name, component.isChecked());
+            component.setText(component.getTextOn());
+        }
+        else {
+            addElement(name, component.isChecked());
+            component.setText(component.getTextOff());
+        }
+
+    }
+
+    private void addElement(String name, Boolean state) {
+        for (Involved involved : Utils.listInvolucrados) {
+            String involvedSource = new String(involved.getName());
+            String involvedOrigin = new String(name);
+
+            if (involvedSource.compareTo(involvedOrigin) == 0) {
+                involved.setSwObject(state);
+                return;
+            }
+        }
+    }
+
+    @Override
+    public void onclickSwith(TextView textView, Boolean state) {
+        addItemRisk(textView.getText().toString(), state);
+    }
+
+    private void addItemRisk(String name, Boolean state) {
+        for (int i = 0; i < listItemRisk.size(); i++) {
+            String riskSource = new String(listItemRisk.get(i).getName());
+            String riskOriginal = new String(name);
+            if (riskSource.compareTo(riskOriginal) == 0) {
+                listItemRisk.get(i).setSwSelected(state);
+            }
+        }
+    }
+
 }

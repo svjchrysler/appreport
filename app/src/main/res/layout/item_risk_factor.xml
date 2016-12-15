@@ -2,21 +2,26 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="50dp"
+    android:weightSum="1"
     android:orientation="horizontal">
 
     <TextView
-        android:id="@+id/item_risk_txtdescription"
-        android:layout_width="match_parent"
+        android:padding="10dp"
+        android:id="@+id/txtNameRisk"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:text=""
+        android:textSize="20dp"
+        android:layout_weight="0.9"
+        android:textStyle="bold"
+        android:text="Alcohol"
         android:gravity="center_vertical"/>
 
     <CheckBox
-        android:layout_width="match_parent"
+
+        android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="5"
+        android:layout_weight="0.1"
         android:checked="false"
-        android:id="@+id/item_risk_cboption"/>
+        android:id="@+id/checkRisk"/>
 
 </LinearLayout>

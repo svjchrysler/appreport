@@ -2,240 +2,325 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     android:orientation="vertical"
-    android:background="@android:color/white">
+    android:scrollbars="vertical">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbarForm"
-        android:background="@color/colorPrimary"
+    <ScrollView
+        android:layout_margin="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    </android.support.v7.widget.Toolbar>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_weight="0"
-                android:text="@string/txt_datetime" />
-
-            <TextView
-                android:id="@+id/lbldate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_weight="1"
-                android:text="@string/txt_date" />
-
-            <TextView
-                android:id="@+id/lblhour"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_weight="1"
-                android:text="@string/txt_time" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:scrollbars="horizontal"
-            android:id="@+id/linearInvolucrados"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <com.cunoraz.tagview.TagView
-                android:id="@+id/groupTag"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            </com.cunoraz.tagview.TagView>
-
-        </LinearLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/form_involved"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/txt_involved"
-                android:textStyle="bold" />
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="right"
+                android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/btnShowInvolved"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_alignParentRight="true"
-                android:layout_below="@id/form_involved"
-                android:background="@mipmap/more" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="10dp"
+                    android:text="@string/txt_datetime" />
 
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/lbldate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="10dp"
+                    android:text="@string/txt_date" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:orientation="vertical">
+                <TextView
+                    android:id="@+id/lblhour"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/txt_time" />
+            </LinearLayout>
 
 
-
-            <TextView
-                android:id="@+id/form_photo"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/txt_photo"
-                android:textStyle="bold" />
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/space_padding"
+                android:paddingTop="@dimen/space_padding"
+                android:weightSum="1">
 
-            <ImageView
-                android:id="@+id/imgCamera"
-                android:src="@mipmap/police"
-                android:layout_below="@+id/form_photo"
-                android:layout_width="150dp"
-                android:layout_height="150dp" />
+                <TextView
+                    android:id="@+id/form_involved"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="0.8"
+                    android:text="@string/txt_involved"
+                    android:textStyle="bold" />
 
-            <Button
-                android:layout_width="25dp"
-                android:id="@+id/rxcamera"
-                android:layout_height="25dp"
-                android:layout_alignParentRight="true"
-                android:layout_below="@id/form_photo"
-                android:background="@mipmap/more" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.2"
+                    android:gravity="right">
 
-        </RelativeLayout>
+                    <Button
+                        android:id="@+id/btnShowInvolved"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@mipmap/more" />
+
+                </LinearLayout>
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:orientation="vertical">
+            </LinearLayout>
 
-            <TextView
+            <LinearLayout
+                android:id="@+id/linearInvolucrados"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/txt_weather"
-                android:textStyle="bold"
-                android:id="@+id/textView" />
+                android:orientation="horizontal"
+                android:scrollbars="horizontal">
 
-            <Spinner
-                android:id="@+id/sp_weather"
+                <com.cunoraz.tagview.TagView
+                    android:id="@+id/groupTag"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </com.cunoraz.tagview.TagView>
+
+            </LinearLayout>
+
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/txt_weather"
-                android:textAlignment="center" />
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/space_padding"
+                android:paddingTop="@dimen/space_padding"
+                android:weightSum="1">
 
-            <TextView
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="0.8"
+                    android:text="@string/txt_riesgo"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.2"
+                    android:gravity="right">
+
+                    <Button
+                        android:id="@+id/btnShowRiesgo"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@mipmap/more" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearFactores"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/txt_severity"
-                android:textStyle="bold" />
+                android:orientation="horizontal"
+                android:scrollbars="horizontal">
+
+                <com.cunoraz.tagview.TagView
+                    android:id="@+id/groupTagFactores"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </com.cunoraz.tagview.TagView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/form_photo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/txt_photo"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:scrollbars="horizontal">
 
-                <RadioGroup
-                    android:layout_width="match_parent"
-                    android:orientation="horizontal"
-                    android:gravity="center"
-                    android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/imgCameraOne"
+                    android:layout_width="@dimen/sizeImage"
+                    android:layout_height="@dimen/sizeImage"
+                    android:layout_below="@+id/form_photo"
+                    android:src="@mipmap/police" />
 
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:text="Fatal"
-                        android:layout_height="wrap_content" />
+                <ImageView
+                    android:id="@+id/imgCameraTwo"
+                    android:layout_width="@dimen/sizeImage"
+                    android:layout_height="@dimen/sizeImage"
+                    android:layout_below="@+id/form_photo"
+                    android:src="@mipmap/police" />
 
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:text="Serio"
-                        android:layout_height="wrap_content" />
+                <ImageView
+                    android:id="@+id/imgCameraThree"
+                    android:layout_width="@dimen/sizeImage"
+                    android:layout_height="@dimen/sizeImage"
+                    android:layout_below="@+id/form_photo"
+                    android:src="@mipmap/police" />
 
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:text="Leve"
-                        android:layout_height="wrap_content" />
-                </RadioGroup>
+                <ImageView
+                    android:id="@+id/imgCameraFour"
+                    android:layout_width="@dimen/sizeImage"
+                    android:layout_height="@dimen/sizeImage"
+                    android:layout_below="@+id/form_photo"
+                    android:src="@mipmap/police" />
 
             </LinearLayout>
-        </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/txt_segurity"
-                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:paddingBottom="@dimen/space_padding"
+                android:layout_marginTop="@dimen/space_padding"
+                android:orientation="vertical">
 
-                <Switch
-                    android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="SOAT" />
+                    android:text="@string/txt_weather"
+                    android:textStyle="bold" />
 
-                <Switch
-                    android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/spWeather"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Privado" />
+                    android:hint="Click para seleccionar clima"
+                    android:textSize="15dp" />
 
-                <Switch
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="No Figura" />
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/space_padding"
+                android:layout_marginTop="@dimen/space_padding"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/txt_severity"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <RadioGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/rbOne"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Fatal" />
+
+                        <RadioButton
+                            android:id="@+id/rbTwo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Serio" />
+
+                        <RadioButton
+                            android:id="@+id/rbThree"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Leve" />
+                    </RadioGroup>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/space_padding"
+                android:layout_marginTop="@dimen/space_padding"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/txt_segurity"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_marginTop="@dimen/space_padding"
+                    android:paddingBottom="@dimen/space_padding"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Switch
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="SOAT" />
+
+                    <Switch
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Privado" />
+
+                    <Switch
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="No Figura" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView2"
+                android:layout_weight="1" />
 
 
         </LinearLayout>
 
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true">
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/btnRegister"
-            android:text="@string/btn_register" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height= "wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/btnCancel"
-            android:text="@string/btn_cancel" />
-    </LinearLayout>
+    </ScrollView>
 </LinearLayout>

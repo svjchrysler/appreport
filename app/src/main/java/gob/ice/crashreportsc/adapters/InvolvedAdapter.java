@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -46,17 +45,34 @@ public class InvolvedAdapter extends RecyclerView.Adapter<InvolvedAdapter.ViewHo
         Involved involved = updateLisElementExist(position);
 
         if (!involvedOrigin.getSw()) {
+            holder.linearCenter.setVisibility(View.GONE);
+            holder.linearContentBtn.setVisibility(View.GONE);
+
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
             params.weight = 1;
-            holder.linearContentBtn.setVisibility(View.GONE);
+
+
+
+            holder.linearContentTxt.addView(holder.aSwitch);
+
+            if (listInvolved.get(position).getSwObject())
+                holder.aSwitch.setChecked(true);
+            else
+                holder.aSwitch.setChecked(false);
+
             holder.linearContentTxt.setLayoutParams(params);
+
+            holder.setOnClickSwitchObject(holder.aSwitch, onClick, listInvolved.get(position).getName());
+
         } else {
-            if (involvedOrigin.getSwGenero()) {
+            /*if (involvedOrigin.getSwGenero()) {
                 holder.swGenero.setVisibility(View.VISIBLE);
             }
             else {
                 holder.swGenero.setVisibility(View.GONE);
-            }
+            }*/
+
+            holder.swGenero.setVisibility(View.GONE);
         }
 
         holder.txtName.setText(involvedOrigin.getName());
@@ -110,9 +126,15 @@ public class InvolvedAdapter extends RecyclerView.Adapter<InvolvedAdapter.ViewHo
         @BindView(R.id.swgenero)
         Switch swGenero;
 
+        Switch aSwitch;
 
         public ViewHolder(View itemView) {
             super(itemView);
+            aSwitch =  new Switch(itemView.getContext());
+            aSwitch.setTextOn("Si");
+            aSwitch.setTextOff("No");
+            aSwitch.setText("No");
+
             ButterKnife.bind(this, itemView);
         }
 
@@ -141,6 +163,16 @@ public class InvolvedAdapter extends RecyclerView.Adapter<InvolvedAdapter.ViewHo
                     onClick.onClickSwitch(component);
                 }
             });
+        }
+
+        public void setOnClickSwitchObject(final Switch switchObject, final OnClick onClick, final String name) {
+            aSwitch.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onClick.onClickSwitchObject(switchObject, name);
+                }
+            });
+
         }
     }
 }
