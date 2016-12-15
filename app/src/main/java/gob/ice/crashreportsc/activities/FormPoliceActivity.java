@@ -55,6 +55,7 @@ import gob.ice.crashreportsc.adapters.RiskAdapter;
 import gob.ice.crashreportsc.interfaces.OnClickRisk;
 import gob.ice.crashreportsc.models.Involved;
 import gob.ice.crashreportsc.models.Risk;
+import picker.ugurtekbas.com.Picker.Picker;
 import rx.functions.Action1;
 
 
@@ -88,6 +89,9 @@ public class FormPoliceActivity extends AppCompatActivity implements gob.ice.cra
 
     @BindView(R.id.imgCameraFour)
     ImageView imgCameraFour;
+
+    @BindView(R.id.txtClock)
+    TextView txtClock;
 
     private ArrayList<Involved> listAddItems;
     private ArrayList<Risk> listItemRisk;
@@ -129,7 +133,6 @@ public class FormPoliceActivity extends AppCompatActivity implements gob.ice.cra
                 if (!list.isEmpty()) {
                     Utils.latitude = String.valueOf(loc.getLatitude());
                     Utils.longitude = String.valueOf(loc.getLongitude());
-                    Toast.makeText(context, loc.getLatitude() + " , " + loc.getLongitude() , Toast.LENGTH_SHORT).show();
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -525,4 +528,40 @@ public class FormPoliceActivity extends AppCompatActivity implements gob.ice.cra
             }
         });
     }
+
+    @OnClick(R.id.txtClock)
+    void showDialogClock() {
+        showDialogClockSelect();
+    }
+
+    private void showDialogClockSelect() {
+        final Dialog dialog = new Dialog(this, android.R.style.Theme_DeviceDefault_Light_DialogWhenLarge);
+
+        dialog.requestWindowFeature(getWindow().FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_clock);
+
+        final Picker picker = (Picker)dialog.findViewById(R.id.amPicker);
+        Button btnAceptar = (Button) dialog.findViewById(R.id.btnClockAceptar);
+        Button btnCancelar = (Button) dialog.findViewById(R.id.btnClockCancel);
+
+        btnAceptar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                txtClock.setText(picker.getCurrentHour() + ":" + picker.getCurrentMin());
+                dialog.dismiss();
+            }
+        });
+
+
+        btnCancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
+
 }
